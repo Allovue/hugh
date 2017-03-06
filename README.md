@@ -12,6 +12,11 @@ has, etc!
 [hubot]: http://hubot.github.com
 [generator-hubot]: https://github.com/github/generator-hubot
 
+## Allovue's hubot setup
+
+Hubot is running on a digitalocean $5/month box setup using [Dokku](https://github.com/dokku/dokku), an open-source Heroku clone. The main user on the server is `ubuntu` but dokku actions are done as `dokku`, `dokku@dokku.allovue.com`. 
+
+
 ### Running hugh Locally
 
 You can test your hubot by running the following, however some plugins will not
