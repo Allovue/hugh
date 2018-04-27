@@ -1,8 +1,8 @@
 Kisi = require('kisi-client');
 kisiClient = new Kisi.default();
 
-const kisiUsername = process.env['KISI_USERNAME'];
-const kisiApiKey = process.env['KISI_API_KEY'];
+var kisiUsername = process.env.KISI_USERNAME;
+var kisiApiKey = process.env.KISI_API_KEY;
 
 module.exports = function(robot) {
   return robot.hear(/let me in/i, function(res) {
