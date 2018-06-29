@@ -12,4 +12,12 @@ module.exports = function(robot) {
       then(function() { kisiClient.post("locks/3698/unlock") }).
       catch(function() { res.reply("I can't open the :door:") })
   })
+
+  return robot.hear(/mellon/i, function(res) {
+    return kisiClient.signIn(kisiUsername, kisiPassword).
+      then(function() { res.reply("The Doors of Durin slowly open...") }).
+      then(function() { kisiClient.post("locks/3697/unlock") }).
+      then(function() { kisiClient.post("locks/3698/unlock") }).
+      catch(function() { res.reply("Nothing's happening.") })
+  })
 }
