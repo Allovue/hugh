@@ -36,7 +36,7 @@ module.exports = function(robot) {
     console.log('feedback room ID is: ', feedbackRoomId)
     if(!feedbackRoomId || feedbackRoomId === messageRoomId){
       console.log('sending the feedback to prodpad')
-      return sendFeedback(feedbackData, res);
+      // return sendFeedback(feedbackData, res);
     }
 
   })
