@@ -9,21 +9,21 @@ var prodpadKey     = process.env.PRODPAD_API_KEY,
     errorMessage   = process.env.PRODSLACK_ERROR_MESSAGE,
     successMessage = process.env.PRODSLACK_SUCCESS_MESSAGE;
 
-var sendFeedback = function(feedbackData, slackRes) {
-  var data = JSON.stringify(feedbackData);
-
-  robot.http("https://api.prodpad.com/v1/feedbacks")
-    .header('Content-Type', 'application/json')
-    .header('Authorization', `Bearer ${prodpadKey}`)
-    .post(data)(function(err, res, body) {
-      if (err) {
-        return slackRes.reply(errorMessage || `Well dang, there was an error sending your feedback:\n ${err}`)
-      }
-      return slackRes.reply(successMessage || "Your feedback was successfully added to ProdPad")
-    });
-};
-
 module.exports = function(robot) {
+  var sendFeedback = function(feedbackData, slackRes) {
+    var data = JSON.stringify(feedbackData);
+
+    robot.http("https://api.prodpad.com/v1/feedbacks")
+      .header('Content-Type', 'application/json')
+      .header('Authorization', `Bearer ${prodpadKey}`)
+      .post(data)(function(err, res, body) {
+        if (err) {
+          return slackRes.reply(errorMessage || `Well dang, there was an error sending your feedback:\n ${err}`)
+        }
+        return slackRes.reply(successMessage || "Your feedback was successfully added to ProdPad")
+      });
+  };
+
   robot.hear(/^feedback (.*)/i, function(res) {
     var feedbackData = {
       name: res.message.user.real_name,
@@ -36,7 +36,7 @@ module.exports = function(robot) {
     console.log('feedback room ID is: ', feedbackRoomId)
     if(!feedbackRoomId || feedbackRoomId === messageRoomId){
       console.log('sending the feedback to prodpad')
-      // return sendFeedback(feedbackData, res);
+      return sendFeedback(feedbackData, res);
     }
 
   })
