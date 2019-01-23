@@ -27,5 +27,6 @@ module.exports = function(robot) {
     if (res.message.room === feedbackRoomId) {
       return sendFeedback(feedbackData, res);
     }
+
   })
 }
