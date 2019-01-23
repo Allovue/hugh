@@ -1,5 +1,6 @@
 // This is using Jason's key on production as of 1/22/19
 var prodpadKey = process.env.PRODPAD_API_KEY;
+var feedbackRoomId = process.env.FEEDBACK_ROOM_ID;
 
 module.exports = function(robot) {
   function sendFeedback(feedbackData, slackRes) {
@@ -22,6 +23,9 @@ module.exports = function(robot) {
       email: res.message.user.email_address,
       feedback: res.match[1],
     }
-    return sendFeedback(feedbackData, res);
+
+    if (res.message.room === feedbackRoomId) {
+      return sendFeedback(feedbackData, res);
+    }
   })
 }
