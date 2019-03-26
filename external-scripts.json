@@ -6,5 +6,6 @@
   "hubot-rules",
   "hubot-shipit",
   "hubot-scrum-secretary",
-  "hubot-google-images"
+  "hubot-google-images",
+  "hubot-pair-shuffler"
 ]
