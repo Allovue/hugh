@@ -24,7 +24,7 @@ module.exports = function(robot) {
       });
   };
 
-  robot.hear(/^feedback (.*)/i, function(res) {
+  robot.hear(/^#?feedback (.*)/i, function(res) {
     var feedbackData = {
       name: res.message.user.real_name,
       email: res.message.user.email_address,
