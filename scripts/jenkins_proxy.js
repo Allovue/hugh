@@ -7,7 +7,7 @@ module.exports = function(robot) {
     var customer = res.match[1];
     if (customer == "demo" || customer == "development") { customer = "demo" };
     robot.http(jenkinsURL + '/buildByToken/buildWithParameters?job=' + jobName + '&token=' + jenkinsToken + '&customer=' + customer).post(null) (function(err, res, body) {
-      return true;
+      return res.reply("Copying " + customer + " to staging");
     });
   })
 }
