@@ -12,7 +12,7 @@ module.exports = function(robot) {
   })
 
   robot.respond(/I need a database dump for (.+)/i, function(res) {
-    var jobName = "Fetch%20customer's%20database%20dump"
+    var jobName = "Get%20DB%20dump%20for%20developer"
     var customer = res.match[1];
     robot.http(jenkinsURL + '/buildByToken/buildWithParameters?job=' + jobName + '&token=' + jenkinsToken + '&customer=' + customer).post(null) (function(err, res, body) {
       return res.reply("Backing up " + customer);
