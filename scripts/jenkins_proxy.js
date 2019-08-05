@@ -7,7 +7,11 @@ module.exports = function(robot) {
     var customer = res.match[1];
     if (customer == "demo" || customer == "development") { customer = "demo" };
     robot.http(jenkinsURL + '/buildByToken/buildWithParameters?job=' + jobName + '&token=' + jenkinsToken + '&customer=' + customer).post(null) (function(err, res, body) {
-      return res.reply("Copying " + customer + " to staging");
+      if (err) {
+        return res.reply("I can't do that right now");
+      } else {
+        return res.reply("Copying " + customer + " to staging");
+      }
     });
   })
 
@@ -15,14 +19,22 @@ module.exports = function(robot) {
     var jobName = "Get%20DB%20dump%20for%20developer"
     var customer = res.match[1];
     robot.http(jenkinsURL + '/buildByToken/buildWithParameters?job=' + jobName + '&token=' + jenkinsToken + '&customer=' + customer).post(null) (function(err, res, body) {
-      return res.reply("Backing up " + customer);
+      if (err) {
+        return res.reply("I can't do that right now");
+      } else {
+        return res.reply("Backing up " + customer);
+      }
     });
   })
 
   robot.respond(/restart the elasticsearch cluster/i, function(res) {
     var jobName = "Restart%20elasticsearch%20cluster"
     robot.http(jenkinsURL + '/buildByToken/build?job=' + jobName + '&token=' + jenkinsToken).post(null) (function(err, res, body) {
-      return res.reply("Attempting cluster restart.");
+      if (err) {
+        return res.reply("I can't do that right now");
+      } else {
+        return res.reply("Attempting cluster restart.");
+      }
     });
   });
 }
