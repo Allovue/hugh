@@ -18,4 +18,10 @@ module.exports = function(robot) {
       return res.reply("Backing up " + customer);
     });
   })
+
+  robot.respond(/restart (the)? elasticsearch cluster/i, function(res) {
+    var jobName = "Restart%20elasticsearch%20cluster"
+    robot.http(jenkinsURL + '/buildByToken/build?job=' + jobName + '&token=' + jenkinsToken).post(null) (function(err, res, body) {
+      return res.reply("Attempting cluster restart.");
+  });
 }
