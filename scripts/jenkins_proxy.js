@@ -1,3 +1,8 @@
+// Commands:
+//   hubot copy [customer] to staging - triggers an background process to clone production data to staging (note that demo copiee to development)
+//   hubot I need a database dump for [customer|demo] - triggers a background process to generate a postgres dump file to be generated suitable for `pg_restore` locally.
+//   hubot restart the elasticsearch cluster - turns elasticsearch nodes off and back on again. Do this if (and only if) we're seeing a slew of errors and etl failures in a span of seconds/minutes.
+
 var jenkinsURL = process.env.JENKINS_URL;
 var jenkinsToken = process.env.JENKINS_TOKEN;
 
