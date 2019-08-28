@@ -1,3 +1,6 @@
+// Commands:
+// feedback - sends the subsequent text to prodpack as a feedback item. Currently only works in the product feedback channel.
+
 // We are using Jason's ProdPad key for this as of 1/23/19
 
 // If you want to scope the listener to a single channel (room),
