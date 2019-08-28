@@ -3,9 +3,5 @@
   "hubot-help",
   "hubot-heroku-keepalive",
   "hubot-redis-brain",
-  "hubot-rules",
-  "hubot-shipit",
-  "hubot-scrum-secretary",
-  "hubot-google-images",
-  "hubot-pair-shuffler"
+  "hubot-google-images"
 ]
