@@ -26,7 +26,7 @@ var doorUnlockedMessages = [
 ]
 
 module.exports = function(robot) {
-  robot.hear(/open the door|let me in/i, function(res) {
+  robot.respond(/open the door|let me in/i, function(res) {
     return kisiClient.signIn(kisiUsername, kisiPassword).
       then(function() { res.reply(doorUnlockedMessages.randomElement()) }).
       then(function() { kisiClient.post("locks/3697/unlock") }).
@@ -34,7 +34,7 @@ module.exports = function(robot) {
       catch(function() { res.reply("I can't open the :door:") })
   })
 
-  return robot.hear(/mellon/i, function(res) {
+  return robot.respond(/mellon/i, function(res) {
     return kisiClient.signIn(kisiUsername, kisiPassword).
       then(function() { res.reply("The Doors of Durin slowly open...") }).
       then(function() { kisiClient.post("locks/3697/unlock") }).
