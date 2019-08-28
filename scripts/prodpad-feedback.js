@@ -1,11 +1,12 @@
 // Commands:
 // feedback - sends the subsequent text to prodpack as a feedback item. Currently only works in the product feedback channel.
 
-// We are using Jason's ProdPad key for this as of 1/23/19
-
+// Notes:
 // If you want to scope the listener to a single channel (room),
 // set the feedbackRoomId env var. It can be found by looking at
 // the end of the URL when you visit a slack channel in the browser.
+
+// We are using Jason's ProdPad key for this as of 1/23/19
 
 var prodpadKey     = process.env.PRODPAD_API_KEY,
     feedbackRoomId = process.env.FEEDBACK_ROOM_ID, // e.g. C0PFAF5QRS
