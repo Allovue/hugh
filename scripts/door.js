@@ -1,5 +1,5 @@
 // Commands:
-// hubot let me in, open, or open the door - Opens both office doors via Kisi
+// hubot let me in, open, or open the door - Opens both office doors via Kisi, says something wacky
 
 Kisi = require('kisi-client');
 kisiClient = new Kisi.default();
@@ -26,7 +26,7 @@ var doorUnlockedMessages = [
 ]
 
 module.exports = function(robot) {
-  robot.hear(/open|open the door|let me in/i, function(res) {
+  robot.hear(/open the door|let me in/i, function(res) {
     return kisiClient.signIn(kisiUsername, kisiPassword).
       then(function() { res.reply(doorUnlockedMessages.randomElement()) }).
       then(function() { kisiClient.post("locks/3697/unlock") }).
