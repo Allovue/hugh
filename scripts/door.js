@@ -1,5 +1,5 @@
 // Commands:
-// hubot let me in, open, or open the door - Opens both office doors via Kisi, says something wacky
+// hubot open the door or let me in - Opens both office doors via Kisi, says something wacky
 
 Kisi = require('kisi-client');
 kisiClient = new Kisi.default();
