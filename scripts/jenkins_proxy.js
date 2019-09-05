@@ -3,6 +3,7 @@
 //   hubot I need a database dump for <customer|demo> - triggers a background process to generate a postgres dump file to be generated suitable for `pg_restore` locally.
 //   hubot restart the elasticsearch cluster - turns elasticsearch nodes off and back on again. Do this if (and only if) we're seeing a slew of errors and etl failures in a span of seconds/minutes.
 //   hubot start the ETL for <customer> - starts the Extract/Transform/Load process to import data to Balance for the named customer. For a TINY number of customers that process does not include "extract".
+//   hubot reindex elasticsearch for <customer> - performs just the elasticsearch-updating portion of the ETL process for the named customer.
 
 var jenkinsURL = process.env.JENKINS_URL;
 var jenkinsToken = process.env.JENKINS_TOKEN;
@@ -45,9 +46,22 @@ module.exports = function(robot) {
     });
   })
 
-  robot.respond(/start the ETL for (\w+)/, function(msg) {
+  robot.respond(/start the ETL for (\w+)$/, function(msg) {
     var customer = msg.match[1];
-    var jobName = "ETL%2fhubot%20handler";
+    var jobName = "ETL%2fhubot%20etl%20trigger";
+
+    robot.http(urlFor(jobName, customer)).post(null) (function(err, response, body) {
+      if (err) {
+        return msg.reply("I can't do that right now");
+      } else {
+        return msg.reply("Starting ETL for " + customer);
+      }
+    });
+  });
+
+  robot.respond(/reindex elasticsearch for (\w+)$/, function(msg) {
+    var customer = msg.match[1];
+    var jobName = "ETL%2fhubot%20elasticsearch%20trigger";
 
     robot.http(urlFor(jobName, customer)).post(null) (function(err, response, body) {
       if (err) {
