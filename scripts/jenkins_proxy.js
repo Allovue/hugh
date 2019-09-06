@@ -46,7 +46,7 @@ module.exports = function(robot) {
     });
   })
 
-  robot.respond(/start the ETL for (\w+)$/, function(msg) {
+  robot.respond(/start the ETL for (\w+)/, function(msg) {
     var customer = msg.match[1];
     var jobName = "ETL%2fhubot%20etl%20trigger";
 
@@ -59,7 +59,7 @@ module.exports = function(robot) {
     });
   });
 
-  robot.respond(/reindex elasticsearch for (\w+)$/, function(msg) {
+  robot.respond(/reindex elasticsearch for (\w+)/, function(msg) {
     var customer = msg.match[1];
     var jobName = "ETL%2fhubot%20elasticsearch%20trigger";
 
