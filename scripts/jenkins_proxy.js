@@ -67,7 +67,7 @@ module.exports = function(robot) {
       if (err) {
         return msg.reply("I can't do that right now");
       } else {
-        return msg.reply("Starting ETL for " + customer);
+        return msg.reply("Reindexing ES for " + customer);
       }
     });
   });
