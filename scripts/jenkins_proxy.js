@@ -3,7 +3,7 @@
 //   hubot I need a database dump for <customer|demo> - triggers a background process to generate a postgres dump file to be generated suitable for `pg_restore` locally.
 //   hubot restart the elasticsearch cluster - turns elasticsearch nodes off and back on again. Do this if (and only if) we're seeing a slew of errors and etl failures in a span of seconds/minutes.
 //   hubot start the ETL for <customer> - starts the Extract/Transform/Load process to import data to Balance for the named customer. For a TINY number of customers that process does not include "extract".
-//   hubot start the ETL for <customer> using <non-default-import_bucket_1,non-default-import_bucket_2> - starts the Extract/Transform/Load process to import data to Balance for the named customer. Overrides the per-customer vault value for "import_buckets" to allow prior years data to be loaded.
+//   hubot start the ETL for <customer> using buckets <non-default-import_bucket_1,non-default-import_bucket_2> - starts the Extract/Transform/Load process to import data to Balance for the named customer. Overrides the per-customer vault value for "import_buckets" to allow prior years data to be loaded.
 //   hubot reindex elasticsearch for <customer> - performs just the elasticsearch-updating portion of the ETL process for the named customer.
 
 var jenkinsURL = process.env.JENKINS_URL;
