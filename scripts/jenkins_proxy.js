@@ -4,6 +4,8 @@
 //   hubot restart the elasticsearch cluster - turns elasticsearch nodes off and back on again. Do this if (and only if) we're seeing a slew of errors and etl failures in a span of seconds/minutes.
 //   hubot start the ETL for <customer> - starts the Extract/Transform/Load process to import data to Balance for the named customer. For a TINY number of customers that process does not include "extract".
 //   hubot start the ETL for <customer> using buckets <non-default-import_bucket_1,non-default-import_bucket_2> - starts the Extract/Transform/Load process to import data to Balance for the named customer. Overrides the per-customer vault value for "import_buckets" to allow prior years data to be loaded.
+//   hubot start the import for <customer> - Skips customer extraction, begins ETL using whatever is in the S3 bucket for that district
+//   hubot start the import for <customer> using buckets <non-default-import_bucket_1,non-default-import_bucket_2> - Skips customer extraction, begins ETL using the S3 buckets specified
 //   hubot reindex elasticsearch for <customer> - performs just the elasticsearch-updating portion of the ETL process for the named customer.
 
 var jenkinsURL = process.env.JENKINS_URL;
@@ -47,10 +49,11 @@ module.exports = function(robot) {
     });
   })
 
-  robot.respond(/start the ETL for (\w+)( using buckets ([^ ]+))?/, function(msg) {
-    var customer = msg.match[1];
-    var import_bucket_override = msg.match[3];
-    var jobName = "ETL%2fhubot%20etl%20trigger";
+  robot.respond(/start the (etl|import) for (\w+)( using buckets ([^ ]+))?/i, function(msg) {
+    var etl_or_import = msg.match[1].toLowerCase();
+    var jobName = "ETL%2fhubot%20" + etl_or_import + "%20trigger";
+    var customer = msg.match[2].toLowerCase();
+    var import_bucket_override = msg.match[4];
     var url = buildUrlFor(jobName, customer);
     if (import_bucket_override) {
       url = url + '&import_bucket_override=' + escape(import_bucket_override);
@@ -60,7 +63,7 @@ module.exports = function(robot) {
       if (err) {
         return msg.reply("I can't do that right now");
       } else {
-        return msg.reply("Starting ETL for " + customer);
+        return msg.reply("Starting " + etl_or_import + " for " + customer + (import_bucket_override ? " using " + import_bucket_override : ""));
       }
     });
   });
