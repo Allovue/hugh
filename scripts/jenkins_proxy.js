@@ -7,7 +7,7 @@
 //   hubot start the import for <customer> - Skips customer extraction, begins ETL using whatever is in the S3 bucket for that district
 //   hubot start the import for <customer> using buckets <non-default-import_bucket_1,non-default-import_bucket_2> - Skips customer extraction, begins ETL using the S3 buckets specified
 //   hubot reindex elasticsearch for <customer> - performs just the elasticsearch-updating portion of the ETL process for the named customer.
-//   hubot backfill v3 for <customer> <import_bucket> - Loads data from s3 into the database. Does not extract, does not update elasticsearch.
+//   hubot backfill v3 for <customer> using <import_bucket> - Loads data from s3 into the database. Does not extract, does not update elasticsearch.
 
 var jenkinsURL = process.env.JENKINS_URL;
 var jenkinsToken = process.env.JENKINS_TOKEN;
@@ -94,7 +94,7 @@ module.exports = function(robot) {
     });
   });
 
-  robot.respond(/backfill v3 for (\w+) ([^ ]+)?/i, function(msg) {
+  robot.respond(/backfill v3 for (\w+) using ([^ ]+)?/i, function(msg) {
     var customer = msg.match[1].toLowerCase();
     var import_bucket_override = msg.match[2];
     var url = `${jenkinsURL}/buildByToken/buildWithParameters?job=${escape("ETL/Backfill v3 data")}&token=${jenkinsToken}&customer=${customer}&import_bucket_override=${escape(import_bucket_override)}`;
