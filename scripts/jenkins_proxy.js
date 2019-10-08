@@ -24,7 +24,7 @@ function buildUrlFor(jobName, customer) {
 
 module.exports = function(robot) {
   robot.respond(/copy (\w+) to staging/i, function(msg) {
-    var jobName = 'DB_copy';
+    var jobName = escape('DB_copy');
     var customer = msg.match[1];
     if (customer == "demo" || customer == "development") { customer = "demo" };
 
@@ -38,7 +38,7 @@ module.exports = function(robot) {
   })
 
   robot.respond(/I need a database dump for (\w+)/i, function(msg) {
-    var jobName = "Get%20DB%20dump%20for%20developer";
+    var jobName = escape("Get DB dump for developer");
     var customer = msg.match[1];
 
     robot.http(buildUrlFor(jobName, customer)).post(null) (function(err, response, body) {
@@ -52,7 +52,7 @@ module.exports = function(robot) {
 
   robot.respond(/start the (etl|import) for (\w+)( using buckets ([^ ]+))?/i, function(msg) {
     var etl_or_import = msg.match[1].toLowerCase();
-    var jobName = "ETL%2fhubot%20" + etl_or_import + "%20trigger";
+    var jobName = escape(`ETL/hubot ${etl_or_import} trigger`);
     var customer = msg.match[2].toLowerCase();
     var import_bucket_override = msg.match[4];
     var url = buildUrlFor(jobName, customer);
@@ -71,7 +71,7 @@ module.exports = function(robot) {
 
   robot.respond(/reindex elasticsearch for (\w+)/, function(msg) {
     var customer = msg.match[1];
-    var jobName = "ETL%2fhubot%20elasticsearch%20trigger";
+    var jobName = escape("ETL/hubot elasticsearch trigger");
 
     robot.http(buildUrlFor(jobName, customer)).post(null) (function(err, response, body) {
       if (err) {
@@ -83,7 +83,7 @@ module.exports = function(robot) {
   });
 
   robot.respond(/restart the elasticsearch cluster/i, function(msg) {
-    var jobName = "Restart%20elasticsearch%20cluster";
+    var jobName = escape("Restart elasticsearch cluster");
 
     robot.http(buildUrlFor(jobName)).post(null) (function(err, response, body) {
       if (err) {
@@ -97,7 +97,7 @@ module.exports = function(robot) {
   robot.respond(/backfill v3 for (\w+) ([^ ]+)?/i, function(msg) {
     var customer = msg.match[1].toLowerCase();
     var import_bucket_override = msg.match[2];
-    var url = `${jenkinsURL}/job/ETL/job/Backfill%20v3%20data/buildWithParameters?token=${jenkinsToken}&customer=${customer}&import_bucket_override=${escape(import_bucket_override)}`;
+    var url = `${jenkinsURL}/buildByToken/buildWithParameters?job=${escape("ETL/Backfill v3 data")}&token=${jenkinsToken}&customer=${customer}&import_bucket_override=${escape(import_bucket_override)}`;
 
     robot.http(url).post(null) (function(err, response, body) {
       if (err) {
