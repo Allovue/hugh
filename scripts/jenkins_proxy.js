@@ -3,9 +3,9 @@
 //   hubot I need a database dump for <customer|demo> - triggers a background process to generate a postgres dump file to be generated suitable for `pg_restore` locally.
 //   hubot restart the elasticsearch cluster - turns elasticsearch nodes off and back on again. Do this if (and only if) we're seeing a slew of errors and etl failures in a span of seconds/minutes.
 //   hubot start the ETL for <customer> - starts the Extract/Transform/Load process to import data to Balance for the named customer. For a TINY number of customers that process does not include "extract".
-//   hubot start the ETL for <customer> using buckets <non-default-import_bucket_1,non-default-import_bucket_2> - starts the Extract/Transform/Load process to import data to Balance for the named customer. Overrides the per-customer vault value for "import_buckets" to allow prior years data to be loaded.
+//   hubot start the ETL for <customer> using <non-default-import_bucket_1,non-default-import_bucket_2> - starts the Extract/Transform/Load process to import data to Balance for the named customer. Overrides the per-customer vault value for "import_buckets" to allow prior years data to be loaded.
 //   hubot start the import for <customer> - Skips customer extraction, begins ETL using whatever is in the S3 bucket for that district
-//   hubot start the import for <customer> using buckets <non-default-import_bucket_1,non-default-import_bucket_2> - Skips customer extraction, begins ETL using the S3 buckets specified
+//   hubot start the import for <customer> using <non-default-import_bucket_1,non-default-import_bucket_2> - Skips customer extraction, begins ETL using the S3 buckets specified
 //   hubot reindex elasticsearch for <customer> - performs just the elasticsearch-updating portion of the ETL process for the named customer.
 //   hubot backfill v3 for <customer> using <import_bucket> - Loads data from s3 into the database. Does not extract, does not update elasticsearch.
 
@@ -50,7 +50,7 @@ module.exports = function(robot) {
     });
   })
 
-  robot.respond(/start the (etl|import) for (\w+)( using buckets ([^ ]+))?/i, function(msg) {
+  robot.respond(/start the (etl|import) for (\w+)( using ([^ ]+))?/i, function(msg) {
     var etl_or_import = msg.match[1].toLowerCase();
     var jobName = escape(`ETL/hubot ${etl_or_import} trigger`);
     var customer = msg.match[2].toLowerCase();
