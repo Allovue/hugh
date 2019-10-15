@@ -5,18 +5,25 @@
   "author": "Jake Mauer <jake@jakemauer.com>",
   "description": "Hughbert the Hughbot",
   "dependencies": {
-    "hubot": "^3.3.2",
-    "hubot-diagnostics": "1.0.0",
+    "eslint": "*",
+    "hubot": "*",
+    "hubot-diagnostics": "*",
     "hubot-google-images": "github:jakemauer/hubot-google-images#master",
-    "hubot-guys": "0.0.1",
-    "hubot-help": "^1.0.1",
-    "hubot-heroku-keepalive": "^1.0.2",
-    "hubot-redis-brain": "1.0.0",
-    "hubot-scripts": "^2.17.2",
-    "hubot-slack": "^4.7.1",
-    "kisi-client": "^5.0.3"
+    "hubot-guys": "*",
+    "hubot-help": "*",
+    "hubot-heroku-keepalive": "*",
+    "hubot-redis-brain": "*",
+    "hubot-scripts": "*",
+    "hubot-slack": "*",
+    "kisi-client": "git+https://github.com/dheidelberger/client-js.git#axios-update"
+  },
+  "scripts": {
+    "prepare": "cd node_modules/kisi-client && yarn"
   },
   "engines": {
-    "node": "8.12.x"
+    "node": "10.13.x"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0"
   }
 }
