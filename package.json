@@ -18,9 +18,11 @@
     "kisi-client": "git+https://github.com/dheidelberger/client-js.git#axios-update"
   },
   "scripts": {
-    "prepare": "cd node_modules/kisi-client && yarn"
+    "prepare": "cd node_modules/kisi-client && yarn",
+    "build": "cd node_modules/kisi-client && yarn"
   },
   "engines": {
+    "node": "10.13.x",
     "yarn": "1.19.x"
   },
   "devDependencies": {
