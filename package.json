@@ -21,7 +21,7 @@
     "prepare": "cd node_modules/kisi-client && yarn"
   },
   "engines": {
-    "node": "10.13.x"
+    "yarn": "1.19.x"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0"
