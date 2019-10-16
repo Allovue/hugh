@@ -3,5 +3,6 @@
 set -e
 
 yarn
+export PATH="/app/.heroku/node/bin/:/app/.heroku/yarn/bin/:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:./node_modules/.bin/:$PATH"
 
 exec ./node_modules/.bin/hubot --name "hugh" "$@"
