@@ -50,7 +50,7 @@ module.exports = function(robot) {
     });
   })
 
-  robot.respond(/start the (etl|import) for (\w+)( using (buckets )?([^ ]+))?/i, function(msg) {
+  robot.respond(/start the (etl|import) for ([-\w]+)( using (buckets )?([^ ]+))?/i, function(msg) {
     var etl_or_import = msg.match[1].toLowerCase();
     var jobName = escape(`ETL/hubot ${etl_or_import} trigger`);
     var customer = msg.match[2].toLowerCase();
@@ -94,7 +94,7 @@ module.exports = function(robot) {
     });
   });
 
-  robot.respond(/backfill v3 for (\w+) using (buckets )?([^ ]+)?/i, function(msg) {
+  robot.respond(/backfill v3 for ([-\w]+) using (buckets )?([^ ]+)?/i, function(msg) {
     var customer = msg.match[1].toLowerCase();
     var import_bucket_override = msg.match[3];
     var url = `${jenkinsURL}/buildByToken/buildWithParameters?job=${escape("ETL/Backfill v3 data")}&token=${jenkinsToken}&customer=${customer}&import_bucket_override=${escape(import_bucket_override)}`;
