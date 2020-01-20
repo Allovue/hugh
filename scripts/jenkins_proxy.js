@@ -24,7 +24,7 @@ function buildUrlFor(jobName, customer) {
 
 module.exports = function(robot) {
   robot.respond(/copy (\w+) to staging/i, function(msg) {
-    var jobName = escape('DB_copy');
+    var jobName = escape('ETL/5 copy data to staging');
     var customer = msg.match[1];
 
     robot.http(buildUrlFor(jobName, customer)).post(null) (function(err, response, body) {
