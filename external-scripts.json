@@ -3,6 +3,5 @@
   "hubot-help",
   "hubot-heroku-keepalive",
   "hubot-google-images",
-  "hubot-guys",
   "hubot-redis-brain"
 ]
