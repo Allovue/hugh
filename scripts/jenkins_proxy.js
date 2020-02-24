@@ -2,13 +2,11 @@
 //   hubot copy <customer> to staging - triggers an background process to clone production data to staging
 //   hubot I need a database dump for <customer|demo> - triggers a background process to generate a postgres dump file to be generated suitable for `pg_restore` locally.
 //   hubot dump <customer|demo> - triggers a background process to generate a postgres dump file to be generated suitable for `pg_restore` locally.
-//   hubot restart the elasticsearch cluster - turns elasticsearch nodes off and back on again. Do this if (and only if) we're seeing a slew of errors and etl failures in a span of seconds/minutes.
 //   hubot start the ETL for <customer> - starts the Extract/Transform/Load process to import data to Balance for the named customer. For a TINY number of customers that process does not include "extract".
 //   hubot start the ETL for <customer> using <non-default-import_bucket_1,non-default-import_bucket_2> - starts the Extract/Transform/Load process to import data to Balance for the named customer. Overrides the per-customer vault value for "import_buckets" to allow prior years data to be loaded.
 //   hubot start the import for <customer> - Skips customer extraction, begins ETL using whatever is in the S3 bucket for that district
 //   hubot start the import for <customer> using <non-default-import_bucket_1,non-default-import_bucket_2> - Skips customer extraction, begins ETL using the S3 buckets specified
-//   hubot reindex elasticsearch for <customer> - performs just the elasticsearch-updating portion of the ETL process for the named customer.
-//   hubot backfill v3 for <customer> using <import_bucket> - Loads data from s3 into the database. Does not extract, does not update elasticsearch.
+//   hubot backfill v3 for <customer> using <import_bucket> - Loads data from s3 into the database. Does not extract.
 
 var jenkinsURL = process.env.JENKINS_URL;
 var jenkinsToken = process.env.JENKINS_TOKEN;
@@ -65,31 +63,6 @@ module.exports = function(robot) {
         return msg.reply("I can't do that right now");
       } else {
         return msg.reply("Starting " + etl_or_import + " for " + customer + (import_bucket_override ? " using " + import_bucket_override : ""));
-      }
-    });
-  });
-
-  robot.respond(/reindex elasticsearch for (\w+)/, function(msg) {
-    var customer = msg.match[1];
-    var jobName = escape("ETL/hubot elasticsearch trigger");
-
-    robot.http(buildUrlFor(jobName, customer)).post(null) (function(err, response, body) {
-      if (err) {
-        return msg.reply("I can't do that right now");
-      } else {
-        return msg.reply("Reindexing ES for " + customer);
-      }
-    });
-  });
-
-  robot.respond(/restart the elasticsearch cluster/i, function(msg) {
-    var jobName = escape("Restart elasticsearch cluster");
-
-    robot.http(buildUrlFor(jobName)).post(null) (function(err, response, body) {
-      if (err) {
-        return msg.reply("I can't do that right now");
-      } else {
-        return msg.reply("Attempting cluster restart.");
       }
     });
   });
