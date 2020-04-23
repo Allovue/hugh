@@ -51,7 +51,7 @@ module.exports = function (robot) {
     }
 
   var postFeedback = function (feedbackData, slackRes) {
-    robot.http(`${cannyApiUrl}/posts/create?apiKey=${cannyApiKey}&authorID=${feedbackData.userID}&boardID=${cannyBoardID}&title=${feedbackData.name}s Feedback&details=${feedbackData.feedback}`)
+    robot.http(`${cannyApiUrl}/posts/create?apiKey=${cannyApiKey}&authorID=${feedbackData.userID}&boardID=${cannyBoardID}&title=${feedbackData.name}%27s Feedback&details=${feedbackData.feedback}`)
       .header('Content-Type', 'application/json')
       .get()(function(err, res, body) {
         var postID = JSON.parse(body).id;
