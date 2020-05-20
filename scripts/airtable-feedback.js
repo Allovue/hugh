@@ -1,12 +1,12 @@
 // Commands:
-// feedback - sends the subsequent text to canny as a feedback item. Currently only works in the product feedback channel.
+// feedback - sends the subsequent text to AirTable as a feedback item. Currently only works in the product feedback channel.
 
 // Notes:
 // If you want to scope the listener to a single channel (room),
 // set the feedbackRoomId env var. It can be found by looking at
 // the end of the URL when you visit a slack channel in the browser.
 
-// We are using Jason's ProdPad key for this as of 1/23/19
+// We are using Jake Mauer's Airtable key for this as of 5/20/2020
 
 var airtableApiKey = process.env.AIRTABLE_API_KEY,
     airtableApiUrl = 'https://api.airtable.com/v0/appHAt8PJfbVnwr1g',
