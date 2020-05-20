@@ -34,8 +34,6 @@ module.exports = function (robot) {
       .header('Authorization', `Bearer ${airtableApiKey}`)
       .header('Content-Type', 'application/json')
       .post(feedbackRecord)( function(err, res, body) {
-        console.log('post created: ', body)
-        console.log('parsed post created: ', JSON.parse(body))
         var postID = JSON.parse(body)['records'][0]['id'];
         if (postID) {replyWithURL(postID, slackRes)}
       })
