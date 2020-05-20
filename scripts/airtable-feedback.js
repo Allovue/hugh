@@ -9,32 +9,41 @@
 // We are using Jason's ProdPad key for this as of 1/23/19
 
 var airtableApiKey = process.env.AIRTABLE_API_KEY,
-    airtableApiUrl = 'https://api.airtable.com/v0/appHAt8PJfbVnwr1g/Feedback'
+    airtableApiUrl = 'https://api.airtable.com/v0/appHAt8PJfbVnwr1g',
+    airtableFeedbackTableUrl = process.env.AIRTABLE_FEEDBACK_TABLE_URL || 'https://airtable.com/tblMADv92bjacPHAY/viwkAB29UaKLhQ67S',
     feedbackRoomId = process.env.FEEDBACK_ROOM_ID, // e.g. C0PFAF5QRS
     errorMessage   = process.env.PRODSLACK_ERROR_MESSAGE,
-    successMessage = process.env.PRODSLACK_SUCCESS_MESSAGE,
+    successMessage = process.env.PRODSLACK_SUCCESS_MESSAGE;
 
 module.exports = function (robot) {
 
   var postFeedback = function (feedbackData, slackRes) {
 
-    robot.http(`${airtableApiUrl}`)
+    var feedbackRecord = JSON.stringify({'records' : [
+      {
+        'fields': {
+          "My Feedback": feedbackData.feedback,
+          "From": feedbackData.email,
+          "Submitter Name": feedbackData.name,
+          "Where": "#Product-Feedback Channel"
+        }
+      }
+    ]});
+
+    robot.http(`${airtableApiUrl}/Feedback`)
+      .header('Authorization', `Bearer ${airtableApiKey}`)
       .header('Content-Type', 'application/json')
-      .post(data)(function(err, res, body) {
-        var postID = JSON.parse(body).id;
+      .post(feedbackRecord)( function(err, res, body) {
         console.log('post created: ', body)
+        console.log('parsed post created: ', JSON.parse(body))
+        var postID = JSON.parse(body)['records'][0]['id'];
         if (postID) {replyWithURL(postID, slackRes)}
-    })
+      })
   }
 
   var replyWithURL = function (postID, slackRes) {
-    robot.http(`${cannyApiUrl}/posts/retrieve?apiKey=${cannyApiKey}&id=${postID}`)
-      .header('Content-Type', 'application/json')
-      .get()(function(err, res, body) {
-        postURL = JSON.parse(body).url
-        slackRes.reply(successMessage || `Your feedback has been posted to Canny.io and is visible here: ${postURL}`)
-      })
-
+    let postURL = `${airtableFeedbackTableUrl}/${postID}`;
+    slackRes.reply(successMessage || `Your feedback has been posted to Airtable and is visible here: ${postURL}`)
   }
 
   robot.hear(/^#?feedback (.*)/i, function(res) {
@@ -46,7 +55,7 @@ module.exports = function (robot) {
 
     var messageRoomId = res.message.room;
     if(!feedbackRoomId || feedbackRoomId === messageRoomId){
-      return prepForFeedback(feedbackData, res);
+      return postFeedback(feedbackData, res);
     }
 
   })
