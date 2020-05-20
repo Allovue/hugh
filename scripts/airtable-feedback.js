@@ -25,7 +25,7 @@ module.exports = function (robot) {
           "My Feedback": feedbackData.feedback,
           "From": feedbackData.email,
           "Submitter Name": feedbackData.name,
-          "Where": "#Product-Feedback Channel"
+          "Where": "#product-feedback"
         }
       }
     ]});
