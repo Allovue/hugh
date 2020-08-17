@@ -7,6 +7,7 @@
 //   hubot start the import for <customer> - Skips customer extraction, begins ETL using whatever is in the S3 bucket for that district
 //   hubot start the import for <customer> using <non-default-import_bucket_1,non-default-import_bucket_2> - Skips customer extraction, begins ETL using the S3 buckets specified
 //   hubot backfill v3 for <customer> using <import_bucket> - Loads data from s3 into the database. Does not extract.
+//   hubot restart <PR number> - Destroys and re-creates a QA box for pull request number X.
 
 var jenkinsURL = process.env.JENKINS_URL;
 var jenkinsToken = process.env.JENKINS_TOKEN;
@@ -31,6 +32,19 @@ module.exports = function(robot) {
         return msg.reply("I can't do that right now");
       } else {
         return msg.reply("Copying " + customer + " to staging");
+      }
+    });
+  })
+
+  robot.respond(/restart (?:pr)/i, function(msg) {
+    var jobName = escape("Destroy and re-create QA box");
+    var pull_request_number = msg.match[1];
+
+    robot.http(buildUrlFor(jobName, pull_request_number)).post(null) (function(err, response, body) {
+      if (err) {
+        return msg.reply("I can't do that right now");
+      } else {
+        return msg.reply("Destroying and re-creating QA box for pull request: " + pull_request_number);
       }
     });
   })
