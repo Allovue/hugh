@@ -12,12 +12,12 @@
 var jenkinsURL = process.env.JENKINS_URL;
 var jenkinsToken = process.env.JENKINS_TOKEN;
 
-function buildUrlFor(jobName, customer) {
+function buildUrlFor(jobName, parameter_name, parameter_value) {
   var url;
-  if (customer) {
-    url = jenkinsURL + '/buildByToken/buildWithParameters?job=' + jobName + '&token=' + jenkinsToken + '&customer=' + customer;
+  if (parameter_name) {
+    url = jenkinsURL + `/buildByToken/buildWithParameters?job=${jobName}&token=${jenkinsToken}&${parameter_name}=${parameter_value}`;
   } else {
-    url = jenkinsURL + '/buildByToken/build?job=' + jobName + '&token=' + jenkinsToken;
+    url = jenkinsURL + `/buildByToken/build?job=${jobName}&token=${jenkinsToken}`;
   }
   return url;
 };
@@ -27,7 +27,7 @@ module.exports = function(robot) {
     var jobName = escape('ETL/5 copy data to staging');
     var customer = msg.match[1];
 
-    robot.http(buildUrlFor(jobName, customer)).post(null) (function(err, response, body) {
+    robot.http(buildUrlFor(jobName, "customer", customer)).post(null) (function(err, response, body) {
       if (err) {
         return msg.reply("I can't do that right now");
       } else {
@@ -40,7 +40,7 @@ module.exports = function(robot) {
     var jobName = escape("Destroy and re-create QA box");
     var pull_request_number = msg.match[1];
 
-    robot.http(buildUrlFor(jobName, pull_request_number)).post(null) (function(err, response, body) {
+    robot.http(buildUrlFor(jobName, "pr_number", pull_request_number)).post(null) (function(err, response, body) {
       if (err) {
         return msg.reply("I can't do that right now");
       } else {
@@ -53,7 +53,7 @@ module.exports = function(robot) {
     var jobName = escape("Get DB dump for developer");
     var customer = msg.match[1];
 
-    robot.http(buildUrlFor(jobName, customer)).post(null) (function(err, response, body) {
+    robot.http(buildUrlFor(jobName, "customer", customer)).post(null) (function(err, response, body) {
       if (err) {
         return msg.reply("I can't do that right now");
       } else {
@@ -67,7 +67,7 @@ module.exports = function(robot) {
     var jobName = escape(`ETL/hubot ${etl_or_import} trigger`);
     var customer = msg.match[2].toLowerCase();
     var import_bucket_override = msg.match[5];
-    var url = buildUrlFor(jobName, customer);
+    var url = buildUrlFor(jobName, "customer", customer);
     if (import_bucket_override) {
       url = url + '&import_bucket_override=' + escape(import_bucket_override);
     }
