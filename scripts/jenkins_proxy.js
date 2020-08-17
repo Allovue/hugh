@@ -36,7 +36,7 @@ module.exports = function(robot) {
     });
   })
 
-  robot.respond(/restart (?:pr)/i, function(msg) {
+  robot.respond(/restart (\w+)/i, function(msg) {
     var jobName = escape("Destroy and re-create QA box");
     var pull_request_number = msg.match[1];
 
