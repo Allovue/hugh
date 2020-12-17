@@ -8,7 +8,7 @@
 //   hubot start the import for <customer> using <non-default-import_bucket_1,non-default-import_bucket_2> - Skips customer extraction, begins ETL using the S3 buckets specified
 //   hubot backfill v3 for <customer> using <import_bucket> - Loads data from s3 into the database. Does not extract.
 //   hubot restart <PR number> - Destroys and re-creates a QA box for pull request number X.
-//   hubot copy <customer> data to qa <PR number> - Makes the QA box for the given pull request number use customer's data
+//   hubot copy <customer> to qa <PR number> - Makes the QA box for the given pull request number use customer's data
 
 var jenkinsURL = process.env.JENKINS_URL;
 var jenkinsToken = process.env.JENKINS_TOKEN;
