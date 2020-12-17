@@ -8,6 +8,7 @@
 //   hubot start the import for <customer> using <non-default-import_bucket_1,non-default-import_bucket_2> - Skips customer extraction, begins ETL using the S3 buckets specified
 //   hubot backfill v3 for <customer> using <import_bucket> - Loads data from s3 into the database. Does not extract.
 //   hubot restart <PR number> - Destroys and re-creates a QA box for pull request number X.
+//   hubot copy <customer> data to qa <PR number> - Makes the QA box for the given pull request number use customer's data
 
 var jenkinsURL = process.env.JENKINS_URL;
 var jenkinsToken = process.env.JENKINS_TOKEN;
@@ -24,7 +25,7 @@ function buildUrlFor(jobName, parameter_name, parameter_value) {
 
 module.exports = function(robot) {
   robot.respond(/copy (\w+) to staging/i, function(msg) {
-    var jobName = escape('ETL/5 copy data to staging');
+    var jobName = escape('ETL/3 copy data to staging');
     var customer = msg.match[1];
 
     robot.http(buildUrlFor(jobName, "customer", customer)).post(null) (function(err, response, body) {
@@ -32,6 +33,21 @@ module.exports = function(robot) {
         return msg.reply("I can't do that right now");
       } else {
         return msg.reply("Copying " + customer + " to staging");
+      }
+    });
+  })
+
+  robot.respond(/copy (\w+) to qa (\w+)/i, function(msg) {
+    var jobName = escape('Ad Hoc/copy data to qa');
+    var customer = msg.match[1];
+    var pr_number = msg.match[2];
+
+    url = jenkinsURL + `/buildByToken/buildWithParameters?job=${jobName}&token=${jenkinsToken}&customer=${customer}&pr_number=${pr_number}`;
+    robot.http(url).post(null) (function(err, response, body) {
+      if (err) {
+        return msg.reply("I can't do that right now");
+      } else {
+        return msg.reply("Copying " + customer + " to qa_" + pr_number + ".allovue.com");
       }
     });
   })
