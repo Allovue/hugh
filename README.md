@@ -10,7 +10,7 @@ deployed on [Heroku][heroku] to get you up and running as quick as possible.
 
 ## Allovue's hubot setup
 
-Hubot is running on a digitalocean $5/month box setup using [Dokku](https://github.com/dokku/dokku), an open-source Heroku clone. The main user on the server is `ubuntu` but dokku actions are done as `dokku`, `dokku@dokku.allovue.com`. 
+Hubot is running on a digitalocean $5/month box setup using [Dokku](https://github.com/dokku/dokku), an open-source Heroku clone. The main user on the server is `root` but dokku actions are done as `dokku`, `dokku@dokku.allovue.com`. 
 
 ## Install hubot on a fresh server
 
