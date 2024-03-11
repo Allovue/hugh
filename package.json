@@ -5,6 +5,7 @@
   "author": "Jake Mauer <jake@jakemauer.com>",
   "description": "Hughbert the Hughbot",
   "dependencies": {
+    "coffeescript": "^1.11.1",
     "hubot": "^3.5.0",
     "hubot-diagnostics": "1.0.0",
     "hubot-google-images": "github:jakemauer/hubot-google-images#master",
